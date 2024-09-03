@@ -24,9 +24,9 @@ export class Security {
 	}
 
 	async init() {
-		console.log("Login Button")
-		const cookie = await coockieCheck()
-		console.log("cookie", cookie)
+
+		const cookie = await coockieCheck(this.manager.cookieName)
+
 		if (!cookie) {
 			this.authStop()
 			this.authForms.init()
@@ -38,13 +38,12 @@ export class Security {
 		return
 
 	}
-
 	authStop() {
-		console.log("checked")
+		//console.log("checked")
 		const currentUrl = window.location.href;
 		const targetUrl = "/site/auth.html";
 
-		if (currentUrl == this.manager.SiteURL) {
+		if (!currentUrl.split("/")[3]) {
 			document.location.href = `/site/auth.html`
 		}
 		const currentPageHTML = currentUrl.split("site/")[1]
@@ -55,7 +54,7 @@ export class Security {
 		// Check if the current URL does not end with the target URL
 		if (!currentUrl.includes(targetUrl)) {
 			const currentPage = currentPageHTML.split(".html")[0]
-			console.log(currentPage)
+			//console.log(currentPage)
 			document.location.href = `/site/auth.html?lookingFor=${currentPage}`;
 		}
 		return
@@ -72,8 +71,6 @@ export class Security {
 		if (currentUrl.split("/")[4] == "auth.html") {
 			document.location.href = "/site/index.html"
 		}
-
-
 	}
 
 	async authGroupCheck() {

@@ -4,7 +4,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import { Security } from "/src/js/auth/auth";
 import { Nav } from '/src/js/sideNavComp/sideNav';
-
+import defaultGetCookie from "./auth/siteCookie";
 export const thisSiteURL = "http://localhost:5173/"
 export const apiURL = "http://127.0.0.1:8000/"
 
@@ -18,6 +18,7 @@ export class Manager {
 		this.BaseUrl = null
 		this.backEndToken = null
 		this.SiteURL = null
+		this.cookieName = null
 
 		// general page content conetrols
 		this.loader = document.getElementById("semicircle");
@@ -34,11 +35,12 @@ class Application {
 	}
 
 	async init() {
-
-		this.manager.backEndToken = document.cookie.split("silkthread_GFTL=")[1]
+		this.manager.cookieName = "silkthread_GFTL"
+		this.manager.backEndToken = defaultGetCookie(this.manager.cookieName)
 		console.log(this.manager.backEndToken)
 		this.manager.SiteURL = thisSiteURL
 		this.manager.BaseUrl = apiURL
+
 		await this.security.init()
 
 		// build the nave

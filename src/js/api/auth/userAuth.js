@@ -21,7 +21,7 @@ export class UserAuth {
 			.then((res) => {
 				if (!res.ok) {
 					alert("Invalid Login, please check your input or register for access");
-					document.cookie = "silkthread_GFTL=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+					document.cookie = "${this.manager.cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 
 					return;
 				}
@@ -31,7 +31,7 @@ export class UserAuth {
 			.then((data) => {
 				const backEndToken = data.token
 				console.log(this.auth.returnToPage)
-				document.cookie = `silkthread_GFTL=${backEndToken}`
+				document.cookie = `${this.manager.cookieName}=${backEndToken}`
 				if (this.auth.returnToPage && this.auth.returnToPage != "auth") {
 
 					document.location.href = `${this.auth.returnToPage}.html`
@@ -99,7 +99,7 @@ export class UserAuth {
 
 			if (!response.ok) {
 				alert("Invalid Token, please refresh and login");
-				document.cookie = "silkthread_GFTL=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+				document.cookie = `${this.manager.cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=;`;
 				document.location.reload
 				return;
 			}
