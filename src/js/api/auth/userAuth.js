@@ -4,8 +4,42 @@ export class UserAuth {
 		this.manager = Manager
 		this.auth = Auth
 	}
+	async captchaCheck() {
+		const capchaData = document.cookie.split("cf-turnstile-response=")[1];
+		console.log("cca", capchaData)
+		const jsonData = JSON.stringify({
+			"cf-turnstile-response": capchaData
+		});
 
-	loginAPI() {
+		try {
+			const response = await fetch(this.manager.BaseUrl + "user/api/v1/capcha/", {
+				method: 'POST',
+				body: jsonData,
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+
+			if (!response.ok) {
+				alert("Hhmm... Something happened, please try again.")
+				window.location.reload
+				throw new Error('Failed to fetch CAPTCHA data');
+			}
+
+			const data = await response.json();
+			if (data.status === "success") {
+				console.log(data.status);
+				return 'success'; // Return 'success' if CAPTCHA validation succeeds
+			} else {
+				throw new Error('CAPTCHA validation failed');
+			}
+		} catch (error) {
+			console.error('Error fetching CAPTCHA data:', error);
+			window.location.reload
+			throw error; // Propagate the error if CAPTCHA check fails
+		}
+	}
+	async loginAPI() {
 		const jsonData = JSON.stringify({
 			"Username": this.auth.userInput,
 			"Password": this.auth.passwordInput

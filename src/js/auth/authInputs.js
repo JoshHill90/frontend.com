@@ -5,13 +5,27 @@ export class AuthForms {
 		this.userAuth = UserAuth
 	}
 
-	init() {
+	async init() {
+		//await this.turnstile()
 		// login use
 		console.log("Login Button")
 		this.getURLParams()
 		this.loginListiner()
-	}
 
+		//await this.userAuth.captchaCheck()
+	}
+	async turnstile() {
+		turnstile.ready(function () {
+			console.log("get sf token")
+			turnstile.render("#turnstile-container", {
+				sitekey: "0x4AAAAAAAeZmvjkaX6Vyund",
+				callback: function (token) {
+					console.log(`Challenge Success ${token}`);
+					document.cookie = `cf-turnstile-response=${token}`;
+				},
+			});
+		});
+	}
 	getURLParams() {
 		let urlParams = window.location.search;
 		this.auth.returnToPage = urlParams.split('lookingFor=')[1];

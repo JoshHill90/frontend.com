@@ -1,3 +1,4 @@
+
 export class Nav {
 	constructor(Manager) {
 		this.manager = Manager

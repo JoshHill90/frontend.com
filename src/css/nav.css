@@ -32,12 +32,12 @@
 }
 
 .sub-nav {
-	background-color: var(--bg-2);
+	background-color: var(--bg-6-op);
 	position: absolute;
 	height: 100vh;
 	top: 0;
-	left: 138px;
-	width: 165px;
+	left: 60px;
+	width: 5px;
 	transition: all 0.5s ease-in-out;
 	z-index: 999;
 }
